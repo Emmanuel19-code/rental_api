@@ -6,11 +6,11 @@ namespace app.Domain.Entities
     {
         [Key]
         public string TenantId {get;set;}
-        public string TenantCognito {get;set;}
+        public string TenantCognitoId {get;set;}
         public string Name {get;set;}
         public string Email {get;set;}
         public string PhoneNumber {get;set;}
-
+        
         public Leases Leases {get;set;}
     }
 }

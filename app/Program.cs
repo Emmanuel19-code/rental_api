@@ -11,6 +11,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
 
+
 builder.Services.AddScoped<ITenantService, TenantService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("database")));
@@ -30,7 +31,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
-
+app.UseAuthentication();
 
 app.Run();
 
