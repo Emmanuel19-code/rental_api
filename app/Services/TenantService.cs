@@ -59,7 +59,7 @@ namespace app.Services
         {
             var tenant = await _dbContext.Tenants
                 .FirstOrDefaultAsync(t => t.TenantCognitoId == cognitoId);
-
+            Console.WriteLine(tenant);
             if (tenant == null)
             {
                 return new ApiResponse<TenantReponse>("No Tenant Found");

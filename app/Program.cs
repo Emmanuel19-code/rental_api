@@ -16,6 +16,18 @@ builder.Services.AddScoped<ITenantService, TenantService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("database")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000","http://localhost:3001") 
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials(); 
+    });
+});
+
+
 Log.Logger = new LoggerConfiguration()
              .WriteTo.Console()
              .CreateLogger();
@@ -32,6 +44,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseAuthentication();
-
+app.UseCors("AllowSpecificOrigins");
 app.Run();
 

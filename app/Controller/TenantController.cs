@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace app.Controller
 {
-    [Route("/api/tenants")]
+    [Route("/tenants")]
     [ApiController]
     public class TenantController : ControllerBase
     {
@@ -17,6 +17,7 @@ namespace app.Controller
         [HttpPost("add_tenant")]
         public async Task<ActionResult> AddTenant(CreateTenant request)
         {
+            Console.WriteLine("adding tenant",request);
             var response = await _tenantService.CreateTenant(request);
             if(response.IsSuccess)
             {
@@ -27,7 +28,7 @@ namespace app.Controller
             }
         }
 
-        [HttpPost("{cognitoId}")]
+        [HttpGet("{cognitoId}")]
         public async Task<ActionResult> TenantInfo (string cognitoId)
         {
             Console.WriteLine("hello");

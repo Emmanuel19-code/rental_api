@@ -12,9 +12,9 @@ namespace app.Domain.Entities
         public double Deposit {get;set;}
 
         public string PropertyId {get;set;}
-        public string TenantCognito {get;set;}
-        public Property Property {get;set;}
+        public string TenantId {get;set;}
 
+        public Property Property {get;set;}
         public Tenants Tenants {get;set;}
     }
 }
