@@ -19,6 +19,7 @@ namespace app.Services
 
         public async Task<ApiResponse<TenantReponse>> CreateTenant(CreateTenant request)
         {
+             Console.WriteLine($"{request.Name} {request.Email} {request.PhoneNumber}");
             try
             {
                 if (request == null)
@@ -30,7 +31,7 @@ namespace app.Services
                 var tenant = new Tenants
                 {
                     TenantId = tenantId,
-                    TenantCognitoId = request.TenantCognitoId,
+                    TenantCognitoId = request.CognitoId,
                     Name = request.Name,
                     Email = request.Email,
                     PhoneNumber = request.PhoneNumber
@@ -59,7 +60,6 @@ namespace app.Services
         {
             var tenant = await _dbContext.Tenants
                 .FirstOrDefaultAsync(t => t.TenantCognitoId == cognitoId);
-            Console.WriteLine(tenant);
             if (tenant == null)
             {
                 return new ApiResponse<TenantReponse>("No Tenant Found");
