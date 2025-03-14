@@ -6,11 +6,11 @@ namespace app.Domain.Contract
         public bool IsSuccess {get;set;}
         public string Message {get;set;}
 
-        public ApiResponse(T data)
+        public ApiResponse(T data,string? message = null)
         {
             Data = data;
             IsSuccess = true;
-            Message = string.Empty;
+            Message = message;
         }
          public ApiResponse(string message)
         {

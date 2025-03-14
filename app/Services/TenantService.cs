@@ -19,7 +19,7 @@ namespace app.Services
 
         public async Task<ApiResponse<TenantReponse>> CreateTenant(CreateTenant request)
         {
-             Console.WriteLine($"{request.Name} {request.Email} {request.PhoneNumber}");
+            Console.WriteLine($"{request.Name} {request.Email} {request.PhoneNumber}");
             try
             {
                 if (request == null)
@@ -47,7 +47,7 @@ namespace app.Services
                     Email = tenant.Email,
                     PhoneNumber = tenant.PhoneNumber
                 };
-                return new ApiResponse<TenantReponse>(response);
+                return new ApiResponse<TenantReponse>(response,"created");
             }
             catch (Exception ex)
             {
@@ -72,12 +72,48 @@ namespace app.Services
                 Name = tenant.Name,
                 Email = tenant.Email,
                 PhoneNumber = tenant.PhoneNumber,
-                
+
             };
 
             return new ApiResponse<TenantReponse>(info);
         }
 
+        public async Task<ApiResponse<TenantReponse>> UpdateTenant(UpdateTenant request, string cognitoId)
+        {
+            if (string.IsNullOrEmpty(cognitoId) || request == null)
+            {
+                return new ApiResponse<TenantReponse>("Provide Id");
+            }
+
+            var tenant = await _dbContext.Tenants.FirstOrDefaultAsync(t => t.TenantCognitoId == cognitoId);
+            if (tenant == null)
+            {
+                return new ApiResponse<TenantReponse>("Not Found");
+            }
+            tenant.Name = request.Name;
+            tenant.Email = request.Email;
+            tenant.PhoneNumber = request.PhoneNumber;
+            try
+            {
+                _dbContext.Tenants.Update(tenant);
+                await _dbContext.SaveChangesAsync();
+
+                var response = new TenantReponse
+                {
+                    TenantId = tenant.TenantId,
+                    Name = tenant.Name,
+                    Email = tenant.Email,
+                    PhoneNumber = tenant.PhoneNumber,
+
+                };
+
+                return new ApiResponse<TenantReponse>(response, "Tenant updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<TenantReponse>($"An error occurred: {ex.Message}");
+            }
+        }
 
         //public string DecodeJwt()
         //{

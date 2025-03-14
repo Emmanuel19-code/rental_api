@@ -41,5 +41,19 @@ namespace app.Controller
                 return BadRequest(response);
             }
         }
+
+        [HttpPut("{cognitoId}")]
+        public async Task<ActionResult> UpdateTenantInfo (string cognitoId,UpdateTenant request)
+        {
+           var response = await _tenantService.UpdateTenant(request,cognitoId);
+           if(response.IsSuccess)
+           {
+             return Ok(response);
+           }else
+           {
+             return BadRequest(response);
+           }
+        
+        }
     }
 }

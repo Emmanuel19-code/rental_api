@@ -15,4 +15,10 @@ namespace app.Domain.Contract
      public string Email { get; set; }
     public string PhoneNumber { get; set; }
   }
+  public class UpdateTenant
+  {
+    public string Name {get;set;}
+    public string Email {get;set;}
+    public string PhoneNumber {get;set;}
+  }
 }
