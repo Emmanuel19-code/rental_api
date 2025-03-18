@@ -31,7 +31,6 @@ namespace app.Controller
         [HttpGet("{cognitoId}")]
         public async Task<ActionResult> TenantInfo (string cognitoId)
         {
-            Console.WriteLine("hello");
             var response = await _tenantService.GetTenant(cognitoId);
             if(response.IsSuccess)
             {

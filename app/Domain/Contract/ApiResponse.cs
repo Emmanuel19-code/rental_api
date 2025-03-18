@@ -6,16 +6,16 @@ namespace app.Domain.Contract
         public bool IsSuccess {get;set;}
         public string Message {get;set;}
 
-        public ApiResponse(T data,string? message = null)
+        public ApiResponse(T data,string? message = null,bool status =true)
         {
             Data = data;
-            IsSuccess = true;
+            IsSuccess = status;
             Message = message;
         }
-         public ApiResponse(string message)
+         public ApiResponse(string message,bool status)
         {
             Data = default;
-            IsSuccess = false;
+            IsSuccess = status;
             Message = message;
         }
     }

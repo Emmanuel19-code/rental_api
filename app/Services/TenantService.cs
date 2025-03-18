@@ -24,7 +24,7 @@ namespace app.Services
             {
                 if (request == null)
                 {
-                    return new ApiResponse<TenantReponse>("Please provide the missing information");
+                    return new ApiResponse<TenantReponse>("Please provide the missing information",false);
 
                 }
                 var tenantId = GenerateTenantId();
@@ -47,12 +47,12 @@ namespace app.Services
                     Email = tenant.Email,
                     PhoneNumber = tenant.PhoneNumber
                 };
-                return new ApiResponse<TenantReponse>(response,"created");
+                return new ApiResponse<TenantReponse>(response,"created",true);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return new ApiResponse<TenantReponse>(ex.Message);
+                return new ApiResponse<TenantReponse>(ex.Message,false);
             }
         }
 
@@ -62,7 +62,7 @@ namespace app.Services
                 .FirstOrDefaultAsync(t => t.TenantCognitoId == cognitoId);
             if (tenant == null)
             {
-                return new ApiResponse<TenantReponse>("No Tenant Found");
+                return new ApiResponse<TenantReponse>("No Tenant Found",false);
             }
 
             var info = new TenantReponse
@@ -75,20 +75,20 @@ namespace app.Services
 
             };
 
-            return new ApiResponse<TenantReponse>(info);
+            return new ApiResponse<TenantReponse>(info,"",true);
         }
 
         public async Task<ApiResponse<TenantReponse>> UpdateTenant(UpdateTenant request, string cognitoId)
         {
             if (string.IsNullOrEmpty(cognitoId) || request == null)
             {
-                return new ApiResponse<TenantReponse>("Provide Id");
+                return new ApiResponse<TenantReponse>("Provide Id",false);
             }
 
             var tenant = await _dbContext.Tenants.FirstOrDefaultAsync(t => t.TenantCognitoId == cognitoId);
             if (tenant == null)
             {
-                return new ApiResponse<TenantReponse>("Not Found");
+                return new ApiResponse<TenantReponse>("Not Found",false);
             }
             tenant.Name = request.Name;
             tenant.Email = request.Email;
@@ -107,11 +107,11 @@ namespace app.Services
 
                 };
 
-                return new ApiResponse<TenantReponse>(response, "Tenant updated successfully");
+                return new ApiResponse<TenantReponse>(response, "Tenant updated successfully",true);
             }
             catch (Exception ex)
             {
-                return new ApiResponse<TenantReponse>($"An error occurred: {ex.Message}");
+                return new ApiResponse<TenantReponse>($"An error occurred: {ex.Message}",false);
             }
         }
 
