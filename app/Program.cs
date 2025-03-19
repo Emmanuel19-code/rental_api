@@ -14,6 +14,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<ITenantService, TenantService>();
 builder.Services.AddScoped<IManagerService,ManagerService>();
+builder.Services.AddScoped<IPropertyService,PropertyService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("database")));
 

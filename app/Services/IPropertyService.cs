@@ -4,6 +4,8 @@ namespace app.Services
 {
     public interface IPropertyService
     {
-        Task<ApiResponse<Property>> GetProperty(GetPropertyRequest request);
+        Task<ApiResponse<Property>> GetProperties(GetPropertyRequest request);
+        Task<ApiResponse<Property>> GetProperty(string id);
+        Task<ApiResponse<Property>> CreateProperty(CreatePropertyRequest request);
     }
 }

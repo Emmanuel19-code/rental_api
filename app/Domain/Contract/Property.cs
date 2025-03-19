@@ -5,7 +5,7 @@ namespace app.Domain.Contract
         public double? MinPrice {get;set;}
         public double? MaxPrice {get;set;}
         public string Beds {get;set;}
-        public int Baths {get;set;}
+        public string Baths {get;set;}
         public string PropertyType {get;set;}
         public double? MinSquareFeet {get;set;}
         public double? MaxSquareFeet {get;set;}
@@ -18,4 +18,15 @@ namespace app.Domain.Contract
     {
 
     }
+    public class CreatePropertyRequest
+    {
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Country { get; set; }
+        public string PostalCode { get; set; }
+        public string ManagerCognitoId { get; set; }
+        public Dictionary<string, object> PropertyData { get; set; }
+}
+
 }
