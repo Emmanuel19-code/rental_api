@@ -24,7 +24,7 @@ namespace app.Services
             {
                 if (request == null)
                 {
-                    return new ApiResponse<TenantReponse>("Please provide the missing information",false);
+                    return new ApiResponse<TenantReponse>("Please provide the missing information", false);
 
                 }
                 var tenantId = GenerateTenantId();
@@ -47,12 +47,12 @@ namespace app.Services
                     Email = tenant.Email,
                     PhoneNumber = tenant.PhoneNumber
                 };
-                return new ApiResponse<TenantReponse>(response,"created",true);
+                return new ApiResponse<TenantReponse>(response, "created", true);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return new ApiResponse<TenantReponse>(ex.Message,false);
+                return new ApiResponse<TenantReponse>(ex.Message, false);
             }
         }
 
@@ -62,7 +62,7 @@ namespace app.Services
                 .FirstOrDefaultAsync(t => t.TenantCognitoId == cognitoId);
             if (tenant == null)
             {
-                return new ApiResponse<TenantReponse>("No Tenant Found",false);
+                return new ApiResponse<TenantReponse>("No Tenant Found", false);
             }
 
             var info = new TenantReponse
@@ -75,20 +75,20 @@ namespace app.Services
 
             };
 
-            return new ApiResponse<TenantReponse>(info,"",true);
+            return new ApiResponse<TenantReponse>(info, "", true);
         }
 
         public async Task<ApiResponse<TenantReponse>> UpdateTenant(UpdateTenant request, string cognitoId)
         {
             if (string.IsNullOrEmpty(cognitoId) || request == null)
             {
-                return new ApiResponse<TenantReponse>("Provide Id",false);
+                return new ApiResponse<TenantReponse>("Provide Id", false);
             }
 
             var tenant = await _dbContext.Tenants.FirstOrDefaultAsync(t => t.TenantCognitoId == cognitoId);
             if (tenant == null)
             {
-                return new ApiResponse<TenantReponse>("Not Found",false);
+                return new ApiResponse<TenantReponse>("Not Found", false);
             }
             tenant.Name = request.Name;
             tenant.Email = request.Email;
@@ -107,27 +107,31 @@ namespace app.Services
 
                 };
 
-                return new ApiResponse<TenantReponse>(response, "Tenant updated successfully",true);
+                return new ApiResponse<TenantReponse>(response, "Tenant updated successfully", true);
             }
             catch (Exception ex)
             {
-                return new ApiResponse<TenantReponse>($"An error occurred: {ex.Message}",false);
+                return new ApiResponse<TenantReponse>($"An error occurred: {ex.Message}", false);
             }
         }
 
-        //public string DecodeJwt()
-        //{
-        //    var authorizationHeader = _httpContext.Request.Headers["Authorization"];
-        //    if(StringValues.IsNullOrEmpty(authorizationHeader) || !authorizationHeader.ToString().StartsWith("Bearer "))
-        //    {
-        //        return "Unauthorized: No valid provided";
-        //    }
-        //    var token = authorizationHeader.ToString().Split(" ")[1];
-        //    var handler = new JwtSecurityTokenHandler();
-        //    var jwtToken =  handler.ReadJwtToken(token);
-        //    Console.WriteLine(jwtToken);
-        //    return jwtToken.ToString();
-        //}
+        public async Task<ApiResponse<TenantReponse>> AddFavoriteProperty(string cognitoId, string proprtyId)
+        {
+            var tenant = await _dbContext.Tenants.FirstOrDefaultAsync(t => t.TenantCognitoId == cognitoId);
+            if (tenant == null)
+            {
+                return new ApiResponse<TenantReponse>("Tenant not found", false);
+            }
+            var property = await _dbContext.Property.FirstOrDefaultAsync(p => p.PropertyId == proprtyId);
+            if (property == null)
+            {
+                return new ApiResponse<TenantReponse>("Property Not found", false);
+            }
+            if(tenant.Favorites.Any(fav=>fav== proprtyId))
+             {
+                return new ApiResponse<TenantReponse>("Property Already Added as FAvorite",false);
+             }
+        }
         private static void SaveCounterToFile(int counter)
         {
             File.WriteAllText("Tenantcounter.txt", counter.ToString());

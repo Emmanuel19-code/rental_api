@@ -13,10 +13,12 @@ namespace app.Controller
         {
             _propertyService = propertyService;
         }
-        [HttpGet("")]
+        [HttpGet]
         public async Task<ActionResult> GetProperties([FromQuery] GetPropertyRequest request)
         {
-            return Ok("cool");
+            Console.WriteLine("called");
+            var response =await _propertyService.GetAllProperties(request);
+            return Ok(response);
         }
         [HttpGet("{id}")]
         public async Task<ActionResult> GetProperty(string id)

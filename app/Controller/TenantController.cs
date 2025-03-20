@@ -54,5 +54,12 @@ namespace app.Controller
            }
         
         }
+
+        [HttpPost("{cognitoId}/favorites/{propertyId}")]
+        public async Task<ActionResult> AddFavoriteProperty(string cognitoId,string propertyId)
+        {
+            var response = await _tenantService.AddFavoriteProperty(cognitoId,propertyId);
+            return Ok(response);
+        }
     }
 }
