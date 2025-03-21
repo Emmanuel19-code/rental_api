@@ -115,22 +115,42 @@ namespace app.Services
             }
         }
 
-        public async Task<ApiResponse<TenantReponse>> AddFavoriteProperty(string cognitoId, string proprtyId)
+        public async Task<ApiResponse<PropertyResponse>> AddFavoriteProperty(string cognitoId, string propertyId)
         {
+            Console.WriteLine($"{cognitoId} {propertyId}");
             var tenant = await _dbContext.Tenants.FirstOrDefaultAsync(t => t.TenantCognitoId == cognitoId);
             if (tenant == null)
             {
-                return new ApiResponse<TenantReponse>("Tenant not found", false);
+                return new ApiResponse<PropertyResponse>("Tenant not found", false);
             }
-            var property = await _dbContext.Property.FirstOrDefaultAsync(p => p.PropertyId == proprtyId);
+            var property = await _dbContext.Property.FirstOrDefaultAsync(p => p.PropertyId == propertyId);
             if (property == null)
             {
-                return new ApiResponse<TenantReponse>("Property Not found", false);
+                return new ApiResponse<PropertyResponse>("Property Not found", false);
             }
-            if(tenant.Favorites.Any(fav=>fav== proprtyId))
+            if(tenant.Favorites.Any(fav=>fav== propertyId))
              {
-                return new ApiResponse<TenantReponse>("Property Already Added as FAvorite",false);
+                return new ApiResponse<PropertyResponse>("Property Already Added as Favorite",false);
              }
+            
+             return new ApiResponse<PropertyResponse>("added",true);
+        }
+
+        public async Task<ApiResponse<PropertyResponse>> RemoveFavoriteProperty(string cognitoId, string propertyId)
+        {
+             Console.WriteLine($"{cognitoId} {propertyId}");
+             var tenant = await _dbContext.Tenants.FirstOrDefaultAsync(t=>t.TenantCognitoId == cognitoId);
+             if(tenant == null)
+              {
+                return new ApiResponse<PropertyResponse>("Tenant not Registered",false);
+              }
+              if(!tenant.Favorites.Any(fav=>fav==propertyId))
+               {
+                 return new ApiResponse<PropertyResponse>("Property not part of favorite",false);
+               }
+               tenant.Favorites = tenant.Favorites.Where(fav=>fav != propertyId).ToList();
+               await _dbContext.SaveChangesAsync();
+               return new ApiResponse<PropertyResponse>("Property removed Successfully",true);
         }
         private static void SaveCounterToFile(int counter)
         {
@@ -154,6 +174,6 @@ namespace app.Services
             return userID;
         }
 
-
+        
     }
 }

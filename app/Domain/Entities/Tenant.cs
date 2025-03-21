@@ -11,7 +11,7 @@ namespace app.Domain.Entities
         public string Email {get;set;}
         public string PhoneNumber {get;set;}
         
-        public List<string> Favorites {get;set;}
+        public List<string>? Favorites {get;set;}
         public Leases Leases {get;set;}
     }
 }

@@ -12,17 +12,17 @@ namespace app.Services
             _dbContext = dbContext;
         }
 
-        public async Task<ApiResponse<Property>> CreateProperty(CreatePropertyRequest request)
+        public async Task<ApiResponse<PropertyResponse>> CreateProperty(CreatePropertyRequest request)
         {
             Console.WriteLine(request.PropertyData);
-            var property = new Property
+            var property = new PropertyResponse
             {
 
             };
-            return new ApiResponse<Property>(property, "done");
+            return new ApiResponse<PropertyResponse>(property, "done");
         }
 
-        public async Task<ApiResponse<Property>> GetAllProperties(GetPropertyRequest request)
+        public async Task<ApiResponse<PropertyResponse>> GetAllProperties(GetPropertyRequest request)
         {
             Console.WriteLine($"Location: {request.Location}");
             Console.WriteLine($"PriceMin: {request.PriceMin}");
@@ -132,16 +132,16 @@ namespace app.Services
             //{
             //    return new ApiResponse<List<Property>>(null, "No properties found.");
             //}
-                var properties = new Property
+                var properties = new PropertyResponse
                 {
 
                 };
-            return new ApiResponse<Property>(properties, "Properties retrieved successfully.");
+            return new ApiResponse<PropertyResponse>(properties, "Properties retrieved successfully.");
         }
 
 
 
-        public Task<ApiResponse<Property>> GetProperty(string id)
+        public Task<ApiResponse<PropertyResponse>> GetProperty(string id)
         {
             throw new NotImplementedException();
         }

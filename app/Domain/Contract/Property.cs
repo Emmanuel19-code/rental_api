@@ -17,7 +17,7 @@ namespace app.Domain.Contract
     public double? Longitude { get; set; } // Matches filters.coordinates?.[0]
 }
 
-    public class Property
+    public class PropertyResponse
     {
 
     }

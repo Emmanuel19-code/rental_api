@@ -61,5 +61,19 @@ namespace app.Controller
             var response = await _tenantService.AddFavoriteProperty(cognitoId,propertyId);
             return Ok(response);
         }
+
+        [HttpDelete("{cognitoId}/favorites/{propertyId}")]
+         public async Task<ActionResult> RemoveFavoriteProperty(string cognitoId,string propertyId)
+         {
+            var response = await _tenantService.RemoveFavoriteProperty(cognitoId,propertyId);
+            if(response.IsSuccess)
+             {
+                return Ok(response);
+             }
+             else
+             {
+                return BadRequest(response);
+             }
+         }
     }
 }
